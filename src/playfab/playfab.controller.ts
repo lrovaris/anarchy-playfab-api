@@ -85,4 +85,97 @@ export class PlayFabController {
   async loginWithGoogle(@Body('token') googleToken: string) {
     return this.playFabService.loginWithGoogle(googleToken)
   }
+
+  @Post('update-user-data')
+  @ApiOperation({ summary: 'Update user data with traits' })
+  @ApiBody({
+    description: 'Player ID and their corresponding traits data',
+    type: 'object',
+    required: true,
+    schema: {
+      properties: {
+        playerId: {
+          type: 'string',
+          example: 'some_playfab_id'
+        },
+        spritesData : {
+          type: 'object',
+          example: {
+            "Body": "Naked",
+          }
+        }
+      }
+    }
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'User data updated successfully'
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error'
+  })
+  async updateUserData(
+    @Body('playerId') playerId: string,
+    @Body('spritesData') spritesData: object
+  ): Promise<any> {
+    try {
+      return await this.playFabService.updateUserData(playerId, spritesData)
+    } catch (error) {
+      throw new HttpException(
+        error.errorMessage || error.message,
+        HttpStatus.BAD_REQUEST
+      )
+    }
+  }
+
+  @Post('update-display-name')
+  @ApiOperation({ summary: 'Update the display name for a player' })
+  @ApiBody({
+    description: 'Player ID and the new display name',
+    type: 'object',
+    required: true,
+    schema: {
+      properties: {
+        playFabId: {
+          type: 'string',
+          example: 'some_playfab_id'
+        },
+        newDisplayName: {
+          type: 'string',
+          example: 'NewDisplayName123'
+        }
+      }
+    }
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Display name updated successfully'
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error'
+  })
+  async updateDisplayName(
+    @Body('playFabId') playFabId: string,
+    @Body('newDisplayName') newDisplayName: string
+  ): Promise<any> {
+    try {
+      return await this.playFabService.updateDisplayName(playFabId, newDisplayName);
+    } catch (error) {
+      throw new HttpException(
+        error.errorMessage || error.message,
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
 }

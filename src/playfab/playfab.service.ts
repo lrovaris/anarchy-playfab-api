@@ -66,11 +66,38 @@ export class PlayFabService {
           }
         }
       )
+
+      const playFabId = response.data.PlayFabId
+
+      const userDataResponse = await this.getUserData(playFabId)
+      const spriteDataExists =
+        userDataResponse.data &&
+        userDataResponse.data.Data &&
+        userDataResponse.data.Data.spritesData
+
+      const accountInfoResponse = await this.getUserAccountInfo(playFabId)
+      const displayNameExists =
+        accountInfoResponse.data &&
+        accountInfoResponse.data.AccountInfo &&
+        accountInfoResponse.data.AccountInfo.TitleInfo &&
+        accountInfoResponse.data.AccountInfo.TitleInfo.DisplayName
+
+      if (!spriteDataExists) {
+        await this.updateUserData(playFabId, {
+          spriteData: {
+            Body: 'Naked'
+          }
+        })
+      }
+
+      if (!displayNameExists) {
+        await this.updateDisplayName(playFabId, 'Default')
+      }
+
       return response.data
     } catch (error) {
       let errorMessage = 'Failed to login with Google: '
 
-      // Extract the specific error details from the axios response
       if (error.response && error.response.data) {
         errorMessage += `${error.response.data.error} - ${error.response.data.errorMessage}`
       } else {
@@ -79,5 +106,86 @@ export class PlayFabService {
 
       throw new Error(errorMessage)
     }
+  }
+
+  async updateUserData(playerId: string, spritesData: object): Promise<any> {
+    try {
+      const requestBody = {
+        PlayFabId: playerId,
+        Data: {
+          spritesData: JSON.stringify(spritesData)
+        }
+      }
+
+      const response = await axios.post(
+        `${this.baseUrl}/Server/UpdateUserData`,
+        requestBody,
+        {
+          headers: {
+            'X-SecretKey': this.secretKey
+          }
+        }
+      )
+      return response.data
+    } catch (error) {
+      let errorMessage = 'Failed to update user data: '
+
+      if (error.response && error.response.data) {
+        errorMessage += `${error.response.data.error} - ${error.response.data.errorMessage}`
+      } else {
+        errorMessage += error.message
+      }
+
+      throw new Error(errorMessage)
+    }
+  }
+
+  async updateDisplayName(
+    playFabId: string,
+    newDisplayName: string
+  ): Promise<any> {
+    try {
+      const requestBody = {
+        PlayFabId: playFabId,
+        DisplayName: newDisplayName
+      }
+
+      const response = await axios.post(
+        `${this.baseUrl}/Server/UpdateUserTitleDisplayName`,
+        requestBody,
+        {
+          headers: {
+            'X-SecretKey': this.secretKey
+          }
+        }
+      )
+      return response.data
+    } catch (error) {
+      throw new Error(`Failed to update display name: ${error.message}`)
+    }
+  }
+
+  // This is an example method to fetch user data. You might already have an implementation for this.
+  async getUserData(playFabId: string): Promise<any> {
+    const requestBody = { PlayFabId: playFabId }
+    return await axios.post(`${this.baseUrl}/Server/GetUserData`, requestBody, {
+      headers: {
+        'X-SecretKey': this.secretKey
+      }
+    })
+  }
+
+  // This is an example method to fetch account info. You might already have an implementation for this.
+  async getUserAccountInfo(playFabId: string): Promise<any> {
+    const requestBody = { PlayFabId: playFabId }
+    return await axios.post(
+      `${this.baseUrl}/Server/GetUserAccountInfo`,
+      requestBody,
+      {
+        headers: {
+          'X-SecretKey': this.secretKey
+        }
+      }
+    )
   }
 }
