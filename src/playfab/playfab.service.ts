@@ -57,7 +57,7 @@ export class PlayFabService {
         AccessToken: googleToken
       }
 
-      const response = await axios.post(
+      const { data } = await axios.post(
         `${this.baseUrl}/Client/LoginWithGoogleAccount`,
         requestBody,
         {
@@ -66,6 +66,7 @@ export class PlayFabService {
           }
         }
       )
+      let response = data
 
       const playFabId = response.data.PlayFabId
 
@@ -84,9 +85,7 @@ export class PlayFabService {
 
       if (!spriteDataExists) {
         await this.updateUserData(playFabId, {
-          spriteData: {
-            Body: 'Naked'
-          }
+          Body: 'Naked'
         })
       }
 
@@ -151,7 +150,7 @@ export class PlayFabService {
       }
 
       const response = await axios.post(
-        `${this.baseUrl}/Server/UpdateUserTitleDisplayName`,
+        `${this.baseUrl}/Admin/UpdateUserTitleDisplayName`,
         requestBody,
         {
           headers: {
