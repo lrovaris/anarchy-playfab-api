@@ -3,9 +3,9 @@ import axios from 'axios'
 
 @Injectable()
 export class PlayFabService {
-  private readonly baseUrl = 'https://FC69B.playfabapi.com' // Replace FC69B with your titleId
+  private readonly baseUrl = 'https://FC69B.playfabapi.com'
   private readonly secretKey =
-    'Y9KTNA4K9A6DHC9I84HP3XWOKH913A8OMMG58UPXZIOAI3IX7I' // Use environment variables in production!
+    'Y9KTNA4K9A6DHC9I84HP3XWOKH913A8OMMG58UPXZIOAI3IX7I' 
 
   async getAllSegments(): Promise<any> {
     try {
@@ -78,10 +78,10 @@ export class PlayFabService {
 
       const accountInfoResponse = await this.getUserAccountInfo(playFabId)
       const displayNameExists =
-        accountInfoResponse.data &&
-        accountInfoResponse.data.AccountInfo &&
-        accountInfoResponse.data.AccountInfo.TitleInfo &&
-        accountInfoResponse.data.AccountInfo.TitleInfo.DisplayName
+        accountInfoResponse.data.data &&
+        accountInfoResponse.data.data.UserInfo &&
+        accountInfoResponse.data.data.UserInfo.TitleInfo &&
+        accountInfoResponse.data.data.UserInfo.TitleInfo.DisplayName
 
       if (!spriteDataExists) {
         await this.updateUserData(playFabId, {
@@ -112,7 +112,8 @@ export class PlayFabService {
       const requestBody = {
         PlayFabId: playerId,
         Data: {
-          spritesData: JSON.stringify(spritesData)
+          spritesData: JSON.stringify(spritesData),
+          tips: 10000
         }
       }
 
