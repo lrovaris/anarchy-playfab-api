@@ -18,6 +18,7 @@ import {
 import { PlayFabService } from './playfab.service'
 
 @Controller('playfab')
+@ApiTags('PlayFab')
 export class PlayFabController {
   constructor(private readonly playFabService: PlayFabService) {}
 
@@ -98,10 +99,10 @@ export class PlayFabController {
           type: 'string',
           example: 'some_playfab_id'
         },
-        spritesData : {
+        spritesData: {
           type: 'object',
           example: {
-            "Body": "Naked",
+            Body: 'Naked'
           }
         }
       }
@@ -169,13 +170,60 @@ export class PlayFabController {
     @Body('newDisplayName') newDisplayName: string
   ): Promise<any> {
     try {
-      return await this.playFabService.updateDisplayName(playFabId, newDisplayName);
+      return await this.playFabService.updateDisplayName(
+        playFabId,
+        newDisplayName
+      )
     } catch (error) {
       throw new HttpException(
         error.errorMessage || error.message,
         HttpStatus.BAD_REQUEST
-      );
+      )
     }
   }
 
+  @Post('update-user-address')
+  @ApiOperation({ summary: 'Update the address for a PlayFab user' })
+  @ApiBody({
+    description: 'Player ID and the new address',
+    type: 'object',
+    required: true,
+    schema: {
+      properties: {
+        playFabId: {
+          type: 'string',
+          example: 'some_playfab_id'
+        },
+        newAddress: {
+          type: 'string',
+          example: '123 Main St, Springfield, IL'
+        }
+      }
+    }
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Address updated successfully'
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request'
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error'
+  })
+  async updateUserAddress(
+    @Body('playFabId') playFabId: string,
+    @Body('newAddress') newAddress: string
+  ): Promise<any> {
+    try {
+      return await this.playFabService.updateUserAddress(playFabId, newAddress)
+    } catch (error) {
+      throw new HttpException(
+        error.errorMessage || error.message,
+        HttpStatus.BAD_REQUEST
+      )
+    }
+  }
 }
