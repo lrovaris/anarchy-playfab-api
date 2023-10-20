@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import axios from 'axios'
 import { UsersService } from 'src/user/users.service'
+import * as crypto from 'crypto'
 
 @Injectable()
 export class PlayFabService {
@@ -23,7 +24,7 @@ export class PlayFabService {
       )
       return response.data
     } catch (error) {
-      throw new Error(`Failed to fetch all segments: ${error.message}`)
+      throw new Error(`Failed to fetch all segments: ${error.errorMessage}`)
     }
   }
 
@@ -48,8 +49,16 @@ export class PlayFabService {
       )
       return response.data
     } catch (error) {
-      throw new Error(`Failed to fetch players in segment: ${error.message}`)
+      throw new Error(
+        `Failed to fetch players in segment: ${error.errorMessage}`
+      )
     }
+  }
+
+  createHash(data: any): string {
+    const hash = crypto.createHash('sha256')
+    hash.update(data)
+    return hash.digest('hex')
   }
 
   async loginWithGoogle(googleToken: string): Promise<any> {
@@ -80,6 +89,11 @@ export class PlayFabService {
         userDataResponse.data.Data.spritesData
 
       const accountInfoResponse = await this.getUserAccountInfo(playFabId)
+
+      console.log('data.data')
+      console.log(userDataResponse.data.data)
+      console.log('data.data')
+
       const displayNameExists =
         accountInfoResponse.data.data &&
         accountInfoResponse.data.data.UserInfo &&
@@ -93,17 +107,23 @@ export class PlayFabService {
       }
 
       if (!displayNameExists) {
-        await this.updateDisplayName(playFabId, 'Default')
+        await this.updateDisplayName(
+          playFabId,
+          this.createHash((Math.random() * 2 ** 10).toFixed()).substring(0, 12)
+        )
       }
 
-      return response.data
+      return userDataResponse.data.data
+
+
+
     } catch (error) {
       let errorMessage = 'Failed to login with Google: '
 
       if (error.response && error.response.data) {
         errorMessage += `${error.response.data.error} - ${error.response.data.errorMessage}`
       } else {
-        errorMessage += error.message
+        errorMessage += error.errorMessage
       }
 
       throw new Error(errorMessage)
@@ -136,7 +156,7 @@ export class PlayFabService {
       if (error.response && error.response.data) {
         errorMessage += `${error.response.data.error} - ${error.response.data.errorMessage}`
       } else {
-        errorMessage += error.message
+        errorMessage += error.errorMessage
       }
 
       throw new Error(errorMessage)
@@ -164,7 +184,8 @@ export class PlayFabService {
       )
       return response.data
     } catch (error) {
-      throw new Error(`Failed to update display name: ${error.message}`)
+      console.log(error)
+      throw new Error(`Failed to update display name: ${error}`)
     }
   }
 
@@ -251,7 +272,7 @@ export class PlayFabService {
       if (error.response && error.response.data) {
         errorMessage += `${error.response.data.error} - ${error.response.data.errorMessage}`
       } else {
-        errorMessage += error.message
+        errorMessage += error.errorMessage
       }
 
       throw new Error(errorMessage)
