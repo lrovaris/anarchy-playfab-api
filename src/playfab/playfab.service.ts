@@ -116,7 +116,7 @@ export class PlayFabService {
         PlayFabId: playerId,
         Data: {
           spritesData: JSON.stringify(spritesData),
-          tips: 10000
+          chips: 10000
         }
       }
 
@@ -281,6 +281,47 @@ export class PlayFabService {
         depositsValue: JSON.stringify(depositsValue),
         availableValue: JSON.stringify(depositsValue - consumedValue),
         consumedValue: JSON.stringify(parseInt(consumedValue))
+      }
+
+      const requestBody = {
+        PlayFabId: playFabId,
+        Data
+      }
+
+      await axios.post(`${this.baseUrl}/Server/UpdateUserData`, requestBody, {
+        headers: {
+          'X-SecretKey': this.secretKey
+        }
+      })
+    } catch (error) {
+      console.error('Failed to update player deposits:', error)
+      throw new Error('Failed to update player deposits')
+    }
+  }
+
+  async updatePlayerBalance(
+    playFabId: string,
+    spentValue: number
+  ): Promise<void> {
+    try {
+      //@ts-ignore
+      const { data } = await this.getUserData(playFabId)
+
+      const consumedValue = data.data.Data.consumedValue.Value
+        ? data.data.Data.consumedValue.Value
+        : 0
+
+      const availableValue = data.data.Data.availableValue.Value
+        ? data.data.Data.availableValue.Value
+        : 0
+
+      if (spentValue > availableValue) {
+        throw new Error('insuficient value')
+      }
+
+      let Data = {
+        availableValue: JSON.stringify(parseInt(availableValue) - spentValue),
+        consumedValue: JSON.stringify(parseInt(consumedValue) + spentValue)
       }
 
       const requestBody = {
