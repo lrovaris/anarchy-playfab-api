@@ -1,38 +1,54 @@
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  <a href="https://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+<p align="center">An advanced microservice built with the <a href="http://nodejs.org" target="_blank">NestJS</a> framework, designed to handle data communication between a <a href="https://godotengine.org/" target="_blank">Godot Engine</a> game and Microsoft's PlayFab service.</p>
+  
+<p align="center">
+  <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+  <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+  <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+  <a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+  <a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## 🚀 Anarchy PlayFab API
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Anarchy PlayFab API is a microservice designed to handle real-time data communication between a **Godot Engine** game and Microsoft's **PlayFab** backend service. Developed using the **NestJS** framework, this project implements high-performance, scalable backend solutions tailored for game data management.
 
-## Installation
+## ✨ Features
+
+- **Seamless Integration**: Built with NestJS, integrating with the Godot game engine to handle player data.
+- **PlayFab Management**: Manages player profiles, leaderboards, and statistics stored in Microsoft's PlayFab service.
+- **Microservice Architecture**: Designed for scalability and performance to meet high-traffic gaming environments.
+- **Secure Data Handling**: Ensures secure communication and data management between the game and PlayFab.
+
+## 🛠️ Technologies Used
+
+- **NestJS**: A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
+- **PlayFab**: Managed Microsoft's PlayFab service to store and handle player data securely.
+- **Godot Engine**: Integrated the API to interact with a game built on the Godot Engine.
+- **TypeScript**: Typed language for building robust applications.
+- **Microservices**: Architecture designed for performance and scalability.
+
+## 📖 Project Overview
+
+This project was developed for a client named **PixelrogueArt**, who required a robust solution for managing game data using Microsoft's PlayFab service. It involved:
+
+- Creating an API to interact with the **Godot Engine** game.
+- Utilizing **NestJS** for its powerful features, including module-based architecture, dependency injection, and integrated TypeScript support.
+- Implementing PlayFab's REST API to manage player data, leaderboards, and in-game events efficiently.
+
+## ⚡ Quick Start
+
+### Installation
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+### Running the Microservice
 
 ```bash
 # development
@@ -45,7 +61,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+### Testing
 
 ```bash
 # unit tests
@@ -58,16 +74,28 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## 🧩 Integrating with Godot
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+This microservice acts as a backend for a **Godot Engine** game. It provides REST endpoints to handle data operations for players, such as profile management, inventory updates, and leaderboard interactions. The integration allows for seamless synchronization between the game and PlayFab's cloud services.
 
-## Stay in touch
+## 💡 What I Learned
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Working on this project enhanced my expertise in:
 
-## License
+- **NestJS**: Leveraged the power of NestJS for building scalable microservices.
+- **API Integration**: Deepened my skills in integrating third-party services like **PlayFab** into gaming applications.
+- **Secure Data Management**: Implemented secure data transfer protocols between the game client and backend services.
+- **Performance Optimization**: Applied performance tuning techniques to handle high-volume game data transactions efficiently.
 
-Nest is [MIT licensed](LICENSE).
+## 🤝 Contact & Support
+
+For more information or collaboration opportunities, feel free to contact me:
+
+- **Email**: luis.gabrielrovaris@gmail.com
+- **LinkedIn**: [linkedin.com/in/luisrovaris](https://www.linkedin.com/in/luisrovaris)
+
+---
+
+## 📝 License
+
+This project is [MIT licensed](LICENSE).
